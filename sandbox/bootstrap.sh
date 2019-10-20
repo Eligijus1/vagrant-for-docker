@@ -44,23 +44,45 @@ sudo apt-get install -y git
 #php -m
 
 # Docker install:
-sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common
+# ===============
 
+# Install packages to allow apt to use a repository over HTTPS:
+sudo apt-get install -y apt-transport-https
+sudo apt-get install -y ca-certificates
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y curl
+sudo apt-get install -y gnupg-agent 
+sudo apt-get install -y software-properties-common
+
+# Add Docker’s official GPG key:
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 sudo apt-key fingerprint 0EBFCD88
 
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
-   
+# Set up the stable repository:
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+
+# Update packages:
 sudo apt-get update
 
+# Install the latest version of Docker Engine - Community and containerd, or go to the next step to install a specific version:
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+
+# List the versions available in your repo:
+apt-cache madison docker-ce
+
+# TODO:  Install a specific version using the version string from the second column
+
+# Create the docker group:
+sudo groupadd docker
+
+# Add your user to the docker group:
+sudo usermod -aG docker $USER
+
+# TODO: here need logout and login
+
+# docker run hello-world
+
+# docker-compose install:
+sudo curl -L https://github.com/docker/compose/releases/download/1.25.0-rc2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
 
