@@ -6,7 +6,7 @@ echo "::1       vagrant.docker.test.com  vagrant.docker.test  localhost" | sudo 
 echo "10.0.2.15 vagrant.docker.test.com  vagrant.docker.test  localhost" | sudo tee -a /etc/hosts
 
 # Update packages:
-apt-get update
+sudo apt-get update
 
 # Install nmap:
 sudo apt-get install -y nmap
@@ -43,6 +43,24 @@ sudo apt-get install -y git
 #echo "Loaded PHP extensions:"
 #php -m
 
+# Docker install:
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
 
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
+sudo apt-key fingerprint 0EBFCD88
+
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+   
+sudo apt-get update
+
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
